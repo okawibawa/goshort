@@ -22,7 +22,7 @@ func main() {
 	http.Handle("/web/static/", http.StripPrefix("/web/static/", fs))
 
 	http.HandleFunc("/", handler.Home)
-	http.HandleFunc("/shorten-url", handler.ShortenURL)
+	http.HandleFunc("/shorten-url", handler.Shorten)
 
 	log.Printf("listening and serving port 8080")
 	log.Fatal(http.ListenAndServe(":8080", nil))
