@@ -1,0 +1,57 @@
+@import url("https://fonts.googleapis.com/css2?family=Rubik&display=swap");
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+body {
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+input,
+button {
+  font: inherit;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  font-family: Rubik, Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  text-align: center;
+  padding: 2rem;
+  flex: 1 0 auto;
+}
+
+h1 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.form {
+  margin-bottom: 1rem;
+}
+
+.form__input {
+  width: 288px;
+}
+
+footer {
+  flex-shrink: 0;
+  text-align: center;
+  padding-bottom: 2rem;
+}
