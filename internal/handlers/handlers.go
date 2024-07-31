@@ -30,25 +30,46 @@ func (h *Handler) Shorten(w http.ResponseWriter, r *http.Request) {
 	}
 
 	url := r.FormValue("url")
-	shortCode, err := shortener.GenerateShortCode()
-	if err != nil {
-		http.Error(w, "Error generating short code.", http.StatusInternalServerError)
+	if url == "" {
+		http.Error(w, "URL is required.", http.StatusBadRequest)
 		return
 	}
 
-	_, err = h.store.Exec(context.Background(), "insert into urls (original_url, shorten_url) values ($1, $2)", url, shortCode)
-	if err != nil {
-		http.Error(w, "Error generating short code.", http.StatusInternalServerError)
-		return
+	var exists bool
+	maxAttempts := 10
+
+	for attempts := 0; attempts < maxAttempts; attempts++ {
+		shortCode, err := shortener.GenerateShortCode()
+		if err != nil {
+			http.Error(w, "Error generating short code.", http.StatusInternalServerError)
+			return
+		}
+
+		err = h.store.QueryRow(context.Background(), "select exists(select 1 from urls where shorten_url = $1)", shortCode).Scan(&exists)
+		if err != nil {
+			http.Error(w, "Error generating short code..", http.StatusInternalServerError)
+			return
+		}
+
+		if !exists {
+			_, err = h.store.Exec(context.Background(), "insert into urls (original_url, shorten_url) values ($1, $2)", url, shortCode)
+			if err != nil {
+				http.Error(w, "Error generating short code.", http.StatusInternalServerError)
+				return
+			}
+
+			data := struct {
+				OriginalURL  string
+				ShortenedURL string
+			}{
+				OriginalURL:  url,
+				ShortenedURL: "https://www.goshorty.okawibawa.dev/" + shortCode,
+			}
+
+			h.templates.ExecuteTemplate(w, "result.html", data)
+			return
+		}
 	}
 
-	data := struct {
-		OriginalURL  string
-		ShortenedURL string
-	}{
-		OriginalURL:  url,
-		ShortenedURL: "https://www.goshorty.okawibawa.dev/" + shortCode,
-	}
-
-	h.templates.ExecuteTemplate(w, "result.html", data)
+	http.Error(w, "Unable to generate short code. Please try again.", http.StatusInternalServerError)
 }
