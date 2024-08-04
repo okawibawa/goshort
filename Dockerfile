@@ -4,12 +4,12 @@ WORKDIR /app
 
 COPY go.mod go.sum ./
 
-RUN go mod tidy
+RUN go mod download
 
-COPY . ./
+COPY . .
 
 RUN go build -o bin/goshort cmd/server/main.go
 
 EXPOSE 8080
 
-CMD [ "bin/goshort" ]
+CMD [ "./bin/goshort" ]
