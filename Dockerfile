@@ -6,9 +6,9 @@ COPY go.mod go.sum ./
 
 RUN go mod tidy
 
-COPY . .
+COPY . ./
 
-RUN go build
+RUN go build -o bin/goshort cmd/server/main.go
 
 EXPOSE 8080
 
