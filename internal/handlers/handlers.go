@@ -74,7 +74,7 @@ func (h *Handler) Shorten(w http.ResponseWriter, r *http.Request) {
 			ShortenedURL string
 		}{
 			OriginalURL:  url,
-			ShortenedURL: "https://www.goshort.okawibawa.dev/" + shortCode,
+			ShortenedURL: "https://goshort.okawibawa.dev/" + shortCode,
 		}
 
 		h.templates.ExecuteTemplate(w, "result.html", data)
