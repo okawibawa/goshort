@@ -25,5 +25,5 @@ func main() {
 	http.HandleFunc("/api/shorten-url", handler.Shorten)
 	http.HandleFunc("/{code}", handler.Redirect)
 
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	log.Fatal(http.ListenAndServe(":8081", nil))
 }
