@@ -31,6 +31,10 @@ body {
   flex-direction: column;
 }
 
+[data-loading] {
+  display: none;
+}
+
 main {
   text-align: center;
   padding: 2rem;

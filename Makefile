@@ -1,3 +1,5 @@
+.PHONY: build run-bin run-dev
+
 build:
 	@echo "building binary..."
 	@go build -o bin/goshort cmd/server/main.go
