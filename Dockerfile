@@ -10,6 +10,6 @@ COPY . .
 
 RUN go build -o bin/goshort cmd/server/main.go
 
-EXPOSE 8080
+EXPOSE 8081
 
 CMD [ "./bin/goshort" ]
